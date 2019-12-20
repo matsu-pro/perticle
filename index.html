@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>花火</title>
+    </head>
+    <canvas id="canvas" width="800" height="600"></canvas>
+    <script>
+        const SPEED = 2;
+        const RADIUS = 1;
+        const MAX = 512;
+        class Perticle {
+            constructor () {
+                this.x = [];
+                this.y = [];
+                this.xv = [];
+                this.yv = [];
+                this.r = [];
+
+                for (let i = 0; i < MAX; ++i) {
+                    this.x.push(0);
+                    this.y.push(0);
+                    this.xv.push( ((Math.random() * 2) - 1) * SPEED);
+                    this.yv.push( ((Math.random() * 2) - 1) * SPEED);
+                    this.r.push(2);
+                }
+            }
+        };
+        const canvas = document.getElementById("canvas");
+        const ctx = canvas.getContext("2d");
+        const p = new Perticle();
+        const p2 = new Perticle();
+        window.onload = function() {
+            loop();
+        };
+
+        var time = 0;
+        function loop() {
+            time += 1;
+
+
+            requestAnimationFrame(loop);
+            ctx.beginPath();
+            ctx.fillStyle = "#fff";
+            ctx.fillRect(0,0,800, 600);
+            ctx.fill();
+
+            for (let i = 0; i < MAX; ++i) {
+
+
+                ctx.fillStyle ="rgba(" + [0, 0, 255, 0.5] + ")";
+                ctx.beginPath();
+                p.x[i] += p.xv[i];
+                p.y[i] += p.yv[i];
+                ctx.arc( 200 + p.x[i], 200 + p.y[i], p.r[i], 0, Math.PI * 180 / 2, false);
+                ctx.fill();
+
+                if (time > 100) {
+                    ctx.fillStyle ="rgba(" + [255, 0, 0, 0.5] + ")";
+                    ctx.beginPath();
+                    p2.x[i] += p2.xv[i];
+                    p2.y[i] += p2.yv[i];
+                    ctx.arc( 200 + p2.x[i], 200 + p2.y[i], p2.r[i], 0, Math.PI * 180 / 2, false);
+                    ctx.fill();
+                }
+            }
+
+        };
+    </script>
+</html>
